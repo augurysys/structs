@@ -144,7 +144,12 @@ func (s *Struct) FillMap(out map[string]interface{}) {
 				out[k] = finalVal.(map[string]interface{})[k]
 			}
 		} else {
-			out[name] = finalVal
+			vReflect := reflect.ValueOf(finalVal)
+			if vReflect.Kind() == reflect.Ptr {
+				out[name] = vReflect.Elem().Interface()
+			} else {
+				out[name] = finalVal
+			}
 		}
 	}
 }
