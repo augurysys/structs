@@ -146,9 +146,10 @@ func (s *Struct) FillMap(out map[string]interface{}) {
 		} else {
 			vReflect := reflect.ValueOf(finalVal)
 			if vReflect.Kind() == reflect.Ptr {
-				//if the pointer is nil then omit
-				if finalVal != nil {
+				if vReflect.Elem() != reflect.ValueOf(nil) {
 					out[name] = vReflect.Elem().Interface()
+				} else {
+					out[name] = vReflect.Interface()
 				}
 			} else {
 				out[name] = finalVal

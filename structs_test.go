@@ -1451,3 +1451,19 @@ func TestMap_InterfaceTypeWithMapValue(t *testing.T) {
 
 	_ = Map(a)
 }
+
+func TestMapNil(t *testing.T) {
+	type Foo struct {
+		X *int `structs:"x"`
+	}
+
+	foo := Foo{
+		X: nil,
+	}
+
+	m := Map(foo)
+
+	if m["x"] != nil {
+		t.Error()
+	}
+}
